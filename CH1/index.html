@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자기소개 페이지</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<aside class="sidebar">
+    <header class="top-area">
+        <div>
+            <h1>박수빈</h1>
+            <p class="one-line">사용자 경험을 중요하게<br>
+                생각하는 새싹 프론트엔드</p>
+        </div>
+
+        <div class="switch-group">
+            <label class="theme-switch">
+                <input type="checkbox" id="darkToggle">
+                <span class="slider"></span>
+            </label>
+
+            <label class="theme-switch photo-switch">
+                <input type="checkbox" id="bgToggle">
+                <span class="slider star-slider"></span>
+            </label>
+        </div>
+    </header>
+
+    <figure class="profile-box">
+        <img src=".idea/images/profile.jpg" alt="프로필 사진" class="profile-img">
+    </figure>
+
+    <nav class="timeline-nav">
+        <button class="timeline-item active" data-target="about">
+                <span class="dot-wrap">
+                    <span class="dot"></span>
+                </span>
+            <span class="label">소개</span>
+        </button>
+
+        <button class="timeline-item" data-target="skills">
+                <span class="dot-wrap">
+                    <span class="dot"></span>
+                </span>
+            <span class="label">기술 스택</span>
+        </button>
+
+        <button class="timeline-item" data-target="projects">
+                <span class="dot-wrap">
+                    <span class="dot"></span>
+                </span>
+            <span class="label">프로젝트</span>
+        </button>
+
+        <button class="timeline-item" data-target="contact">
+                <span class="dot-wrap">
+                    <span class="dot"></span>
+                </span>
+            <span class="label">연락처</span>
+        </button>
+    </nav>
+</aside>
+
+<main class="content">
+    <section id="about" class="card">
+        <h2>자기소개</h2>
+        <p>
+            안녕하세요, 프론트엔드 개발자를 꿈꾸는 박수빈입니다. 저는 좋아하는 밴드의 콘서트와 페스티벌을 즐겨 찾아다닐 만큼 음악을 좋아하고, 혼자 여행을 떠나는 것도 즐깁니다.
+            보고 싶은 공연이 생기거나 가고 싶은 곳이 생기면 혼자도 거침없이 떠나는 편입니다.
+            즉흥적으로 움직이는 걸 좋아하고, 감정 기복이 크지 않아 어떤 상황에서도 흔들리지 않고 침착하게 행동하려는 편입니다.
+            무언가를 시작하면 끝을 보는 성격이고, 결과물이 눈에 보일 때 가장 큰 보람을 느낍니다.
+        </p>
+        <p>
+            제가 프론트엔드에 관심을 갖게 된 건 대학교 수업 팀 프로젝트였습니다.
+            솔직히 처음엔 그냥 과제니까 시작했습니다. 그런데 코드 한 줄을 바꿨을 뿐인데 화면이 달라지는 걸 보면서, 저도 모르게 이것저것 건드려보고 있었습니다.
+            기능이 돌아가는 것도 좋았지만, 내가 작성한 코드가 눈에 보이는 형태로 바뀐다는 점이 특히 와닿았습니다.
+            팀원들과 함께 하나의 결과물을 완성했을 때의 성취감은 생각보다 컸고, 그게 프론트엔드에 발을 들이게 된 시작이었습니다.
+        </p>
+        <p>
+            그 이후 수업 기말과제로 여행 기록 웹사이트를 만들었습니다. 과제였지만 주제를 직접 정할 수 있었고, 기획부터 구현까지 혼자 결정하면서 팀 프로젝트와는 또 다른 재미가 있었습니다.
+            좋아하는 밴드의 공연을 보러 가서 느끼는 그 생생한 감각처럼, 내가 만든 화면이 누군가의 경험을 담아낼 수 있다는 것이 저한테는 꽤 의미있게 느껴졌습니다.
+            그 경험이 프론트엔드를 계속 하고 싶다는 확신으로 이어졌고, 앞으로도 그런 개발자가 되고 싶습니다. 잘 부탁드립니다.
+        </p>
+    </section>
+
+    <section id="skills" class="card">
+        <h2>기술 스택</h2>
+        <div class="tag-wrap">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Python</span>
+            <span class="tag">Java</span>
+        </div>
+    </section>
+
+    <section id="projects" class="card">
+        <h2>프로젝트 경험</h2>
+
+        <div class="project-item">
+
+            <h3>4989 (대학생 중고 거래 웹사이트)</h3>
+            <p>
+                에브리타임 장터의 비체계적인 거래 구조와 캠퍼스 구분의 불편함, 그리고 대학생 맞춤 물품 거래의 한계를 개선하기 위한 웹사이트를 제작했습니다.
+                대학생 인증 기반 시스템을 통해 신뢰도를 높이고, 교재·실습도구 등 대학생 특화 물품을 중심으로 효율적인 거래 환경을 제공합니다.
+            </p>
+            <img src=".idea/images/project1.png" alt="solo trip 프로젝트 화면" class="project-img">
+        </div>
+
+        <div class="project-item">
+            <h3>Flashback Trip (여행 기록 웹사이트)</h3>
+            <p>
+                개인 여행 기록 및 사용자가 여행 중 방문한 장소를 지도 기반으로 검색하고 메모 및 사진과
+                함께 저장, 관리할 수 있는 페이지를 제작했습니다.
+            </p>
+            <div class="project-img-wrap">
+            <img src=".idea/images/project2.png" alt="날씨 웹사이트 화면" class="project-img">
+            <img src=".idea/images/project2-1.png" alt="날씨 웹사이트 화면" class="project-img">
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact" class="card">
+        <h2>연락처</h2>
+        <p><strong>Email</strong> : subx312@gmail.com</p>
+        <p><strong>GitHub</strong> : github.com/SU8IN</p>
+    </section>
+
+    <div class="bottom-space"></div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
