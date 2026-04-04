@@ -1,5 +1,5 @@
-import heartEmpty from "./assets/Heart.png";
-import heartActive from "./assets/Heart_active.png";
+import heartEmpty from "../assets/Heart.png";
+import heartActive from "../assets/Heart_active.png";
 
 function ProductCard({ product, onToggleLike }) {
     return (

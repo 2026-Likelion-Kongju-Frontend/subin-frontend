@@ -1,4 +1,4 @@
-import alarmIcon from "./assets/alarm.png";
+import alarmIcon from "../assets/alarm.png";
 
 function Header() {
     return (
