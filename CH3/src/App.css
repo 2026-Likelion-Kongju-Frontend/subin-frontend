@@ -13,13 +13,14 @@
   display: flex;
   align-items: center;
   padding: 0 35px;
+  z-index: 100;
 }
 
 .header-logo {
   font-size: 25px;
   font-weight: 200;
   color: #49684a;
-  font-family:'Rubik Spray Paint';
+  font-family: 'Rubik Spray Paint';
 }
 
 .header-right {
@@ -71,6 +72,7 @@
 
 .product-card {
   width: 140px;
+  cursor: pointer;
 }
 
 .product-image-wrap {
@@ -82,6 +84,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .product-info {
@@ -127,9 +130,61 @@
 .like-btn {
   border: none;
   padding: 0;
+  background: transparent;
+  cursor: pointer;
 }
 
 .heart-icon {
   width: 20px;
   height: 20px;
+}
+
+.detail-page {
+  min-height: 100vh;
+  padding-top: 90px;
+  background-color: #eff1f0;
+}
+
+.detail-inner {
+  width: 900px;
+  margin: 0 auto;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.detail-left {
+  width: 380px;
+  background-color: #f8f8f8;
+  padding: 20px;
+}
+
+.detail-right {
+  width: 300px;
+  background-color: #f8f8f8;
+  padding: 20px;
+}
+
+.detail-main-image {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.detail-brand {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 8px;
+}
+
+.detail-name {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.detail-price {
+  font-size: 18px;
+  font-weight: 700;
 }
