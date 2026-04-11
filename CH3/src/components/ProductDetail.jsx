@@ -64,10 +64,8 @@ function ProductDetail({ products, onToggleLike }) {
         }
 
         const cartItem = {
-            id: product.id,
             brand: product.brand,
             name: product.name,
-            image: product.image,
             size: selectedItem.size,
             quantity: selectedItem.quantity,
             price: product.price,
@@ -103,11 +101,6 @@ function ProductDetail({ products, onToggleLike }) {
                             className="detail-main-image"
                         />
 
-                        <div className="detail-color-dots">
-                            <span className="color-dot white"></span>
-                            <span className="color-dot beige"></span>
-                            <span className="color-dot black"></span>
-                        </div>
                     </div>
 
                     <div className="detail-info-table">
