@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Header from "./Components/Header";
-import ProductList from "./Components/ProductList";
-import ProductDetail from "./Components/ProductDetail";
+import Header from "./components/Header";
+import ProductList from "./components/ProductList";
+import ProductDetail from "./components/ProductDetail";
 import { products as initialProducts } from "./data";
 
 function HomePage({ products, onToggleLike }) {
