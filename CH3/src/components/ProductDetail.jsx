@@ -50,6 +50,10 @@ function ProductDetail({ products }) {
         }));
     };
 
+    const totalPrice = selectedItem
+        ? product.price * selectedItem.quantity
+        : 0;
+
     return (
         <main className="detail-page">
             <div className="detail-inner">
@@ -82,42 +86,51 @@ function ProductDetail({ products }) {
                     </div>
 
                     {selectedItem && (
-                        <div className="selected-option-box">
-                            <div className="selected-option-top">
-                                <span>{selectedItem.size}</span>
-                                <button type="button" onClick={handleRemoveSelected}>
-                                    ×
-                                </button>
-                            </div>
-
-                            <div className="selected-option-bottom">
-                                <div className="quantity-box">
-                                    <button
-                                        type="button"
-                                        className="qty-btn"
-                                        onClick={handleDecrease}
-                                        disabled={selectedItem.quantity === 1}
-                                    >
-                                        -
-                                    </button>
-
-                                    <span className="qty-value">{selectedItem.quantity}</span>
-
-                                    <button
-                                        type="button"
-                                        className="qty-btn"
-                                        onClick={handleIncrease}
-                                        disabled={selectedItem.quantity === 9}
-                                    >
-                                        +
+                        <>
+                            <div className="selected-option-box">
+                                <div className="selected-option-top">
+                                    <span>{selectedItem.size}</span>
+                                    <button type="button" onClick={handleRemoveSelected}>
+                                        ×
                                     </button>
                                 </div>
 
-                                <span>
-                  {(product.price * selectedItem.quantity).toLocaleString()}원
+                                <div className="selected-option-bottom">
+                                    <div className="quantity-box">
+                                        <button
+                                            type="button"
+                                            className="qty-btn"
+                                            onClick={handleDecrease}
+                                            disabled={selectedItem.quantity === 1}
+                                        >
+                                            -
+                                        </button>
+
+                                        <span className="qty-value">{selectedItem.quantity}</span>
+
+                                        <button
+                                            type="button"
+                                            className="qty-btn"
+                                            onClick={handleIncrease}
+                                            disabled={selectedItem.quantity === 9}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+
+                                    <span>{totalPrice.toLocaleString()}원</span>
+                                </div>
+                            </div>
+
+                            <div className="total-price-box">
+                <span className="total-count">
+                  총 {selectedItem.quantity}개
+                </span>
+                                <span className="total-price-text">
+                  {totalPrice.toLocaleString()}원
                 </span>
                             </div>
-                        </div>
+                        </>
                     )}
                 </div>
             </div>

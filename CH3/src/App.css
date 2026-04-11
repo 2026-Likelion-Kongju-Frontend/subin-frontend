@@ -279,3 +279,20 @@
   width: 26px;
   text-align: center;
 }
+
+.total-price-box {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.total-count {
+  color: #222;
+}
+
+.total-price-text {
+  color: #222;
+}
