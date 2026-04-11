@@ -1,23 +1,32 @@
-import ProductCard from "./ProductCard";
+import { useParams } from "react-router-dom";
 
-function ProductList({ products, onToggleLike }) {
+function ProductDetail({ products }) {
+    const { id } = useParams();
+    const product = products.find((item) => item.id === Number(id));
+
+    if (!product) {
+        return <div className="detail-page">상품이 없습니다.</div>;
+    }
+
     return (
-        <section className="product-section">
-            <h2 className="section-title">
-                LOGO <span>인기 상품</span>
-            </h2>
-
-            <div className="product-list">
-                {products.map((product) => (
-                    <ProductCard
-                        key={product.id}
-                        product={product}
-                        onToggleLike={onToggleLike}
+        <main className="detail-page">
+            <div className="detail-inner">
+                <div className="detail-left">
+                    <img
+                        src={product.image}
+                        alt={product.name}
+                        className="detail-main-image"
                     />
-                ))}
+                </div>
+
+                <div className="detail-right">
+                    <p className="detail-brand">{product.brand}</p>
+                    <h2 className="detail-name">{product.name}</h2>
+                    <p className="detail-price">{product.price.toLocaleString()}원</p>
+                </div>
             </div>
-        </section>
+        </main>
     );
 }
 
-export default ProductList;
+export default ProductDetail;

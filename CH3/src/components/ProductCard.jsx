@@ -43,9 +43,7 @@ function ProductCard({ product, onToggleLike }) {
                 <div className="product-price-row">
                     {product.discountRate ? (
                         <>
-              <span className="product-discount">
-                {product.discountRate}%
-              </span>
+                            <span className="product-discount">{product.discountRate}%</span>
                             <span className="product-price">
                 {product.price.toLocaleString()}
               </span>

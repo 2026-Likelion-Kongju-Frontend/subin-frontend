@@ -46,10 +46,7 @@ function App() {
                         element={
                             <>
                                 <Header />
-                                <ProductDetail
-                                    products={products}
-                                    onToggleLike={handleToggleLike}
-                                />
+                                <ProductDetail products={products} />
                             </>
                         }
                     />
