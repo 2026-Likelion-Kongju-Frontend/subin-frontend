@@ -54,6 +54,39 @@ function ProductDetail({ products }) {
         ? product.price * selectedItem.quantity
         : 0;
 
+    const handleAddCart = () => {
+        if (!selectedItem) {
+            alert("사이즈를 선택해 주세요.");
+            return;
+        }
+
+        const cartItem = {
+            brand: product.brand,
+            name: product.name,
+            size: selectedItem.size,
+            quantity: selectedItem.quantity,
+            price: product.price,
+            totalPrice,
+        };
+
+        const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        const existingIndex = savedCart.findIndex(
+            (item) => item.id === cartItem.id && item.size === cartItem.size
+        );
+
+        if (existingIndex !== -1) {
+            savedCart[existingIndex].quantity += cartItem.quantity;
+            savedCart[existingIndex].totalPrice =
+                savedCart[existingIndex].quantity * savedCart[existingIndex].price;
+        } else {
+            savedCart.push(cartItem);
+        }
+
+        localStorage.setItem("cart", JSON.stringify(savedCart));
+        alert("장바구니에 저장되었습니다.");
+    };
+
     return (
         <main className="detail-page">
             <div className="detail-inner">
@@ -132,6 +165,19 @@ function ProductDetail({ products }) {
                             </div>
                         </>
                     )}
+
+                    <div className="detail-button-row">
+                        <button
+                            type="button"
+                            className="cart-btn"
+                            onClick={handleAddCart}
+                        >
+                            장바구니
+                        </button>
+                        <button type="button" className="buy-btn">
+                            구매하기
+                        </button>
+                    </div>
                 </div>
             </div>
         </main>
