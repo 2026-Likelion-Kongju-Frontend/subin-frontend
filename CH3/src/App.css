@@ -224,3 +224,58 @@
   display: flex;
   justify-content: space-between;
 }
+
+.detail-size-box {
+  margin-top: 20px;
+}
+
+.detail-size-select {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ddd;
+  padding: 0 10px;
+  background-color: white;
+}
+
+.selected-option-box {
+  margin-top: 10px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.selected-option-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.selected-option-bottom {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.quantity-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #bfbfbf;
+}
+
+.qty-btn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.qty-btn:disabled {
+  background-color: #f3f3f3;
+  color: #bbb;
+  cursor: not-allowed;
+}
+
+.qty-value {
+  width: 26px;
+  text-align: center;
+}

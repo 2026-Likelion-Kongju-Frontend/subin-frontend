@@ -32,6 +32,24 @@ function ProductDetail({ products }) {
         setSelectedItem(null);
     };
 
+    const handleIncrease = () => {
+        if (!selectedItem || selectedItem.quantity >= 9) return;
+
+        setSelectedItem((prev) => ({
+            ...prev,
+            quantity: prev.quantity + 1,
+        }));
+    };
+
+    const handleDecrease = () => {
+        if (!selectedItem || selectedItem.quantity <= 1) return;
+
+        setSelectedItem((prev) => ({
+            ...prev,
+            quantity: prev.quantity - 1,
+        }));
+    };
+
     return (
         <main className="detail-page">
             <div className="detail-inner">
@@ -55,7 +73,7 @@ function ProductDetail({ products }) {
                             onChange={handleSelectSize}
                         >
                             <option value="">사이즈 선택</option>
-                            {product.sizes.map((size) => (
+                            {(product.sizes || []).map((size) => (
                                 <option key={size} value={size}>
                                     {size}
                                 </option>
@@ -73,8 +91,31 @@ function ProductDetail({ products }) {
                             </div>
 
                             <div className="selected-option-bottom">
-                                <span>{selectedItem.quantity}</span>
-                                <span>{product.price.toLocaleString()}원</span>
+                                <div className="quantity-box">
+                                    <button
+                                        type="button"
+                                        className="qty-btn"
+                                        onClick={handleDecrease}
+                                        disabled={selectedItem.quantity === 1}
+                                    >
+                                        -
+                                    </button>
+
+                                    <span className="qty-value">{selectedItem.quantity}</span>
+
+                                    <button
+                                        type="button"
+                                        className="qty-btn"
+                                        onClick={handleIncrease}
+                                        disabled={selectedItem.quantity === 9}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+
+                                <span>
+                  {(product.price * selectedItem.quantity).toLocaleString()}원
+                </span>
                             </div>
                         </div>
                     )}
