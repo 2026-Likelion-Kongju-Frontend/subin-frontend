@@ -76,37 +76,27 @@ function ProductDetail({ onToggleLike }) {
         ? product.price * selectedItem.quantity
         : 0;
 
-    const handleAddCart = () => {
+    const handleAddCart = async () => {
         if (!selectedItem) {
             alert("사이즈를 선택해 주세요.");
             return;
         }
 
-        const cartItem = {
-            brand: product.brand,
-            name: product.name,
-            size: selectedItem.size,
-            quantity: selectedItem.quantity,
-            price: product.price,
-            totalPrice,
-        };
+        try {
+            await apiRequest("/cart/items", {
+                method: "POST",
+                body: JSON.stringify({
+                    productId: product.id,
+                    size: selectedItem.size,
+                    quantity: selectedItem.quantity,
+                }),
+            });
 
-        const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-
-        const existingIndex = savedCart.findIndex(
-            (item) => item.id === cartItem.id && item.size === cartItem.size
-        );
-
-        if (existingIndex !== -1) {
-            savedCart[existingIndex].quantity += cartItem.quantity;
-            savedCart[existingIndex].totalPrice =
-                savedCart[existingIndex].quantity * savedCart[existingIndex].price;
-        } else {
-            savedCart.push(cartItem);
+            alert("장바구니에 담겼습니다.");
+        } catch (err) {
+            console.error(err);
+            alert("장바구니 담기에 실패했습니다.");
         }
-
-        localStorage.setItem("cart", JSON.stringify(savedCart));
-        alert("장바구니에 저장되었습니다.");
     };
 
     return (
