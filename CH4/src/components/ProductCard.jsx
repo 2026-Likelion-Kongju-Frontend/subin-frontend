@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import heartEmpty from "../assets/Heart.png";
 import heartActive from "../assets/Heart_active.png";
-import { getImageUrl } from "../api/client";
+import { getImageUrl, apiRequest } from "../api/client";
 
 function ProductCard({ product, onToggleLike }) {
     const navigate = useNavigate();
@@ -10,9 +10,18 @@ function ProductCard({ product, onToggleLike }) {
         navigate(`/detail/${product.id}`);
     };
 
-    const handleLikeClick = (e) => {
+    const handleLikeClick = async (e) => {
         e.stopPropagation();
-        onToggleLike(product.id);
+
+        try {
+            await apiRequest(`/products/${product.id}/like`, {
+                method: "PATCH",
+            });
+
+            onToggleLike(product.id);
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (

@@ -29,6 +29,18 @@ function ProductDetail({ onToggleLike }) {
         return <div className="detail-page">상품이 없습니다.</div>;
     }
 
+    const handleLikeClick = async () => {
+        try {
+            await apiRequest(`/products/${product.id}/like`, {
+                method: "PATCH",
+            });
+
+            onToggleLike(product.id);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     const handleSelectSize = (e) => {
         const size = e.target.value;
         setSelectedSize(size);
@@ -190,7 +202,7 @@ function ProductDetail({ onToggleLike }) {
                         <button
                             type="button"
                             className="detail-heart-btn"
-                            onClick={() => onToggleLike(product.id)}
+                            onClick={handleLikeClick}
                         >
                             <img
                                 src={product.isLiked ? heartActive : heartEmpty}
@@ -229,13 +241,15 @@ function ProductDetail({ onToggleLike }) {
                                     </button>
                                 </div>
 
-                                <p className="selected-delivery-text">03.26 (목) 도착 예정</p>
+                                <p className="selected-delivery-text">
+                                    03.26 (목) 도착 예정
+                                </p>
 
                                 <div className="selected-option-bottom">
                                     <div className="quantity-box">
-                                        <button type="button" className="qty-btn" onClick={handleDecrease}>-</button>
-                                        <span className="qty-value">{selectedItem.quantity}</span>
-                                        <button type="button" className="qty-btn" onClick={handleIncrease}>+</button>
+                                        <button type="button" onClick={handleDecrease}>-</button>
+                                        <span>{selectedItem.quantity}</span>
+                                        <button type="button" onClick={handleIncrease}>+</button>
                                     </div>
 
                                     <span className="selected-price">
@@ -245,21 +259,15 @@ function ProductDetail({ onToggleLike }) {
                             </div>
 
                             <div className="total-price-box">
-                                <span className="total-count">총 {selectedItem.quantity}개</span>
-                                <span className="total-price-text">
-                                    {totalPrice.toLocaleString()}
-                                </span>
+                                <span>총 {selectedItem.quantity}개</span>
+                                <span>{totalPrice.toLocaleString()}</span>
                             </div>
                         </>
                     )}
 
                     <div className="detail-button-row">
-                        <button type="button" className="cart-btn" onClick={handleAddCart}>
-                            장바구니
-                        </button>
-                        <button type="button" className="buy-btn">
-                            구매하기
-                        </button>
+                        <button onClick={handleAddCart}>장바구니</button>
+                        <button>구매하기</button>
                     </div>
                 </section>
             </div>
