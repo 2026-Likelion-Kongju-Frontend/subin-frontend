@@ -9,14 +9,19 @@ function ProductDetail({ onToggleLike }) {
     const { id } = useParams();
 
     const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         async function fetchProduct() {
             try {
+                setLoading(true);
                 const res = await apiRequest(`/products/${id}`);
                 setProduct(res.data);
             } catch (err) {
-                console.error(err);
+                setError("상품 정보를 불러오지 못했습니다.");
+            } finally {
+                setLoading(false);
             }
         }
         fetchProduct();
@@ -25,21 +30,9 @@ function ProductDetail({ onToggleLike }) {
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedItem, setSelectedItem] = useState(null);
 
-    if (!product) {
-        return <div className="detail-page">상품이 없습니다.</div>;
-    }
-
-    const handleLikeClick = async () => {
-        try {
-            await apiRequest(`/products/${product.id}/like`, {
-                method: "PATCH",
-            });
-
-            onToggleLike(product.id);
-        } catch (err) {
-            console.error(err);
-        }
-    };
+    if (loading) return <div className="detail-page">로딩중...</div>;
+    if (error) return <div className="detail-page">{error}</div>;
+    if (!product) return null;
 
     const handleSelectSize = (e) => {
         const size = e.target.value;
@@ -202,7 +195,7 @@ function ProductDetail({ onToggleLike }) {
                         <button
                             type="button"
                             className="detail-heart-btn"
-                            onClick={handleLikeClick}
+                            onClick={() => onToggleLike(product.id)}
                         >
                             <img
                                 src={product.isLiked ? heartActive : heartEmpty}
@@ -241,15 +234,27 @@ function ProductDetail({ onToggleLike }) {
                                     </button>
                                 </div>
 
-                                <p className="selected-delivery-text">
-                                    03.26 (목) 도착 예정
-                                </p>
+                                <p className="selected-delivery-text">03.26 (목) 도착 예정</p>
 
                                 <div className="selected-option-bottom">
                                     <div className="quantity-box">
-                                        <button type="button" onClick={handleDecrease}>-</button>
-                                        <span>{selectedItem.quantity}</span>
-                                        <button type="button" onClick={handleIncrease}>+</button>
+                                        <button
+                                            type="button"
+                                            className="qty-btn"
+                                            onClick={handleDecrease}
+                                            disabled={selectedItem.quantity === 1}
+                                        >
+                                            -
+                                        </button>
+                                        <span className="qty-value">{selectedItem.quantity}</span>
+                                        <button
+                                            type="button"
+                                            className="qty-btn"
+                                            onClick={handleIncrease}
+                                            disabled={selectedItem.quantity === 9}
+                                        >
+                                            +
+                                        </button>
                                     </div>
 
                                     <span className="selected-price">
@@ -259,15 +264,35 @@ function ProductDetail({ onToggleLike }) {
                             </div>
 
                             <div className="total-price-box">
-                                <span>총 {selectedItem.quantity}개</span>
-                                <span>{totalPrice.toLocaleString()}</span>
+                                <span className="total-count">총 {selectedItem.quantity}개</span>
+                                <span className="total-price-text">
+                                    {totalPrice.toLocaleString()}
+                                </span>
                             </div>
                         </>
                     )}
 
                     <div className="detail-button-row">
-                        <button onClick={handleAddCart}>장바구니</button>
-                        <button>구매하기</button>
+                        <button
+                            type="button"
+                            className="cart-btn"
+                            onClick={handleAddCart}
+                        >
+                            장바구니
+                        </button>
+                        <button type="button" className="buy-btn">
+                            구매하기
+                        </button>
+                    </div>
+
+                    <div className="detail-notice-box">
+                        <p className="notice-title">LOGO 회원은 전 품목 무료배송</p>
+                        <p className="notice-sub">(일부 상품 및 도서 산간 지역 제외)</p>
+                    </div>
+
+                    <div className="detail-delivery-box">
+                        <p>03.26 (목) 도착 예정</p>
+                        <p>결제 3일 이내 배송 예정</p>
                     </div>
                 </section>
             </div>
