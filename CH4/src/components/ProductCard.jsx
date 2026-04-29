@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import heartEmpty from "../assets/Heart.png";
 import heartActive from "../assets/Heart_active.png";
+import { getImageUrl } from "../api/client";
 
 function ProductCard({ product, onToggleLike }) {
     const navigate = useNavigate();
@@ -17,7 +18,11 @@ function ProductCard({ product, onToggleLike }) {
     return (
         <div className="product-card" onClick={handleCardClick}>
             <div className="product-image-wrap">
-                <img src={product.image} alt={product.name} className="product-image" />
+                <img
+                    src={getImageUrl(product.image)}
+                    alt={product.name}
+                    className="product-image"
+                />
             </div>
 
             <div className="product-info">
@@ -45,13 +50,13 @@ function ProductCard({ product, onToggleLike }) {
                         <>
                             <span className="product-discount">{product.discountRate}%</span>
                             <span className="product-price">
-                {product.price.toLocaleString()}
-              </span>
+                                {product.price.toLocaleString()}
+                            </span>
                         </>
                     ) : (
                         <span className="product-price">
-              {product.price.toLocaleString()}
-            </span>
+                            {product.price.toLocaleString()}
+                        </span>
                     )}
                 </div>
             </div>

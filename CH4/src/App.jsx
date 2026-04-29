@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import ProductList from "./components/ProductList";
 import ProductDetail from "./components/ProductDetail";
-import { products as initialProducts } from "./data";
+import { apiRequest } from "./api/client";
 
 function HomePage({ products, onToggleLike }) {
     return (
@@ -18,7 +18,19 @@ function HomePage({ products, onToggleLike }) {
 }
 
 function App() {
-    const [products, setProducts] = useState(initialProducts);
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        async function fetchProducts() {
+            try {
+                const res = await apiRequest("/products");
+                setProducts(res.data);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        fetchProducts();
+    }, []);
 
     const handleToggleLike = (id) => {
         setProducts((prev) =>
@@ -46,7 +58,7 @@ function App() {
                         element={
                             <>
                                 <Header />
-                                <ProductDetail products={products} />
+                                <ProductDetail onToggleLike={handleToggleLike} />
                             </>
                         }
                     />

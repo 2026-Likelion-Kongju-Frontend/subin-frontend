@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import heartEmpty from "../assets/Heart.png";
 import heartActive from "../assets/Heart_active.png";
 import starIcon from "../assets/star.svg";
+import { apiRequest, getImageUrl } from "../api/client";
 
-function ProductDetail({ products, onToggleLike }) {
+function ProductDetail({ onToggleLike }) {
     const { id } = useParams();
-    const product = products.find((item) => item.id === Number(id));
+
+    const [product, setProduct] = useState(null);
+
+    useEffect(() => {
+        async function fetchProduct() {
+            try {
+                const res = await apiRequest(`/products/${id}`);
+                setProduct(res.data);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        fetchProduct();
+    }, [id]);
 
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedItem, setSelectedItem] = useState(null);
@@ -96,11 +110,10 @@ function ProductDetail({ products, onToggleLike }) {
                 <section className="detail-left-panel">
                     <div className="detail-main-image-wrap">
                         <img
-                            src={product.image}
+                            src={getImageUrl(product.image)}
                             alt={product.name}
                             className="detail-main-image"
                         />
-
                     </div>
 
                     <div className="detail-info-table">
@@ -131,7 +144,7 @@ function ProductDetail({ products, onToggleLike }) {
 
                     <div className="detail-description-image-wrap">
                         <img
-                            src={product.descriptionImage}
+                            src={getImageUrl(product.descriptionImage)}
                             alt={`${product.name} 상세`}
                             className="detail-description-image"
                         />
@@ -165,12 +178,12 @@ function ProductDetail({ products, onToggleLike }) {
                             <div className="detail-sale-row">
                                 {product.discountRate > 0 && (
                                     <span className="detail-discount-rate">
-                    {product.discountRate}%
-                  </span>
+                                        {product.discountRate}%
+                                    </span>
                                 )}
                                 <span className="detail-sale-price">
-                  {product.price.toLocaleString()}
-                </span>
+                                    {product.price.toLocaleString()}
+                                </span>
                             </div>
                         </div>
 
@@ -220,61 +233,33 @@ function ProductDetail({ products, onToggleLike }) {
 
                                 <div className="selected-option-bottom">
                                     <div className="quantity-box">
-                                        <button
-                                            type="button"
-                                            className="qty-btn"
-                                            onClick={handleDecrease}
-                                            disabled={selectedItem.quantity === 1}
-                                        >
-                                            -
-                                        </button>
+                                        <button type="button" className="qty-btn" onClick={handleDecrease}>-</button>
                                         <span className="qty-value">{selectedItem.quantity}</span>
-                                        <button
-                                            type="button"
-                                            className="qty-btn"
-                                            onClick={handleIncrease}
-                                            disabled={selectedItem.quantity === 9}
-                                        >
-                                            +
-                                        </button>
+                                        <button type="button" className="qty-btn" onClick={handleIncrease}>+</button>
                                     </div>
 
                                     <span className="selected-price">
-                    {totalPrice.toLocaleString()}
-                  </span>
+                                        {totalPrice.toLocaleString()}
+                                    </span>
                                 </div>
                             </div>
 
                             <div className="total-price-box">
                                 <span className="total-count">총 {selectedItem.quantity}개</span>
                                 <span className="total-price-text">
-                  {totalPrice.toLocaleString()}
-                </span>
+                                    {totalPrice.toLocaleString()}
+                                </span>
                             </div>
                         </>
                     )}
 
                     <div className="detail-button-row">
-                        <button
-                            type="button"
-                            className="cart-btn"
-                            onClick={handleAddCart}
-                        >
+                        <button type="button" className="cart-btn" onClick={handleAddCart}>
                             장바구니
                         </button>
                         <button type="button" className="buy-btn">
                             구매하기
                         </button>
-                    </div>
-
-                    <div className="detail-notice-box">
-                        <p className="notice-title">LOGO 회원은 전 품목 무료배송</p>
-                        <p className="notice-sub">(일부 상품 및 도서 산간 지역 제외)</p>
-                    </div>
-
-                    <div className="detail-delivery-box">
-                        <p>03.26 (목) 도착 예정</p>
-                        <p>결제 3일 이내 배송 예정</p>
                     </div>
                 </section>
             </div>
