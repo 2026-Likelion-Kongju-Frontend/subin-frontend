@@ -34,6 +34,23 @@ function ProductDetail({ onToggleLike }) {
     if (error) return <div className="detail-page">{error}</div>;
     if (!product) return null;
 
+    const handleLikeClick = async () => {
+        try {
+            const res = await apiRequest(`/products/${product.id}/like`, {
+                method: "PATCH",
+            });
+
+            onToggleLike(product.id);
+
+            setProduct((prev) => ({
+                ...prev,
+                isLiked: res.data.isLiked,
+            }));
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     const handleSelectSize = (e) => {
         const size = e.target.value;
         setSelectedSize(size);
@@ -185,7 +202,7 @@ function ProductDetail({ onToggleLike }) {
                         <button
                             type="button"
                             className="detail-heart-btn"
-                            onClick={() => onToggleLike(product.id)}
+                            onClick={handleLikeClick}
                         >
                             <img
                                 src={product.isLiked ? heartActive : heartEmpty}
