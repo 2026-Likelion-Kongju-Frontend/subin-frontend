@@ -19,7 +19,6 @@ export async function apiRequest(endpoint, options = {}) {
     return data;
 }
 
-// 이미지 경로 처리용
 export function getImageUrl(path) {
     return `${BASE_URL}${path}`;
 }
