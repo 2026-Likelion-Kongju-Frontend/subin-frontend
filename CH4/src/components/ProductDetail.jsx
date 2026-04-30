@@ -9,14 +9,19 @@ function ProductDetail({ onToggleLike }) {
     const { id } = useParams();
 
     const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         async function fetchProduct() {
             try {
+                setLoading(true);
                 const res = await apiRequest(`/products/${id}`);
                 setProduct(res.data);
             } catch (err) {
-                console.error(err);
+                setError("상품 정보를 불러오지 못했습니다.");
+            } finally {
+                setLoading(false);
             }
         }
         fetchProduct();
@@ -25,9 +30,26 @@ function ProductDetail({ onToggleLike }) {
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedItem, setSelectedItem] = useState(null);
 
-    if (!product) {
-        return <div className="detail-page">상품이 없습니다.</div>;
-    }
+    if (loading) return <div className="detail-page">로딩중...</div>;
+    if (error) return <div className="detail-page">{error}</div>;
+    if (!product) return null;
+
+    const handleLikeClick = async () => {
+        try {
+            const res = await apiRequest(`/products/${product.id}/like`, {
+                method: "PATCH",
+            });
+
+            onToggleLike(product.id);
+
+            setProduct((prev) => ({
+                ...prev,
+                isLiked: res.data.isLiked,
+            }));
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     const handleSelectSize = (e) => {
         const size = e.target.value;
@@ -71,37 +93,27 @@ function ProductDetail({ onToggleLike }) {
         ? product.price * selectedItem.quantity
         : 0;
 
-    const handleAddCart = () => {
+    const handleAddCart = async () => {
         if (!selectedItem) {
             alert("사이즈를 선택해 주세요.");
             return;
         }
 
-        const cartItem = {
-            brand: product.brand,
-            name: product.name,
-            size: selectedItem.size,
-            quantity: selectedItem.quantity,
-            price: product.price,
-            totalPrice,
-        };
+        try {
+            await apiRequest("/cart/items", {
+                method: "POST",
+                body: JSON.stringify({
+                    productId: product.id,
+                    size: selectedItem.size,
+                    quantity: selectedItem.quantity,
+                }),
+            });
 
-        const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-
-        const existingIndex = savedCart.findIndex(
-            (item) => item.id === cartItem.id && item.size === cartItem.size
-        );
-
-        if (existingIndex !== -1) {
-            savedCart[existingIndex].quantity += cartItem.quantity;
-            savedCart[existingIndex].totalPrice =
-                savedCart[existingIndex].quantity * savedCart[existingIndex].price;
-        } else {
-            savedCart.push(cartItem);
+            alert("장바구니에 담겼습니다.");
+        } catch (err) {
+            console.error(err);
+            alert("장바구니 담기에 실패했습니다.");
         }
-
-        localStorage.setItem("cart", JSON.stringify(savedCart));
-        alert("장바구니에 저장되었습니다.");
     };
 
     return (
@@ -190,7 +202,7 @@ function ProductDetail({ onToggleLike }) {
                         <button
                             type="button"
                             className="detail-heart-btn"
-                            onClick={() => onToggleLike(product.id)}
+                            onClick={handleLikeClick}
                         >
                             <img
                                 src={product.isLiked ? heartActive : heartEmpty}
@@ -233,9 +245,23 @@ function ProductDetail({ onToggleLike }) {
 
                                 <div className="selected-option-bottom">
                                     <div className="quantity-box">
-                                        <button type="button" className="qty-btn" onClick={handleDecrease}>-</button>
+                                        <button
+                                            type="button"
+                                            className="qty-btn"
+                                            onClick={handleDecrease}
+                                            disabled={selectedItem.quantity === 1}
+                                        >
+                                            -
+                                        </button>
                                         <span className="qty-value">{selectedItem.quantity}</span>
-                                        <button type="button" className="qty-btn" onClick={handleIncrease}>+</button>
+                                        <button
+                                            type="button"
+                                            className="qty-btn"
+                                            onClick={handleIncrease}
+                                            disabled={selectedItem.quantity === 9}
+                                        >
+                                            +
+                                        </button>
                                     </div>
 
                                     <span className="selected-price">
@@ -254,12 +280,26 @@ function ProductDetail({ onToggleLike }) {
                     )}
 
                     <div className="detail-button-row">
-                        <button type="button" className="cart-btn" onClick={handleAddCart}>
+                        <button
+                            type="button"
+                            className="cart-btn"
+                            onClick={handleAddCart}
+                        >
                             장바구니
                         </button>
                         <button type="button" className="buy-btn">
                             구매하기
                         </button>
+                    </div>
+
+                    <div className="detail-notice-box">
+                        <p className="notice-title">LOGO 회원은 전 품목 무료배송</p>
+                        <p className="notice-sub">(일부 상품 및 도서 산간 지역 제외)</p>
+                    </div>
+
+                    <div className="detail-delivery-box">
+                        <p>03.26 (목) 도착 예정</p>
+                        <p>결제 3일 이내 배송 예정</p>
                     </div>
                 </section>
             </div>
